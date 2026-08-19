@@ -1,0 +1,54 @@
+
+
+
+#!/bin/bash
+
+#task
+#deploy a django app
+#andhandle the code for errors
+
+
+code_clone(){
+	echo "CLonning the Djnago app..."
+	git clone https://github.com/LondheShubham153/django-notes-app.git
+}
+
+install_req(){
+	echo "Install dependencies..."
+	sudo apt-get install docker.io nginx -y
+}
+
+
+req_restarts() {
+	#sudo systemctl enable docker
+	#sudo systemctl enable nginx
+	#sudo systemctl restart docker
+	docker-compose up -d
+}
+
+deploy() {
+	docker build -t notes-app .
+	docker run -d -p 8000:8000 notes-app:latest
+}
+
+echo "********** DEPLOYEMENT STARTED ***********"
+if !code_clone; then
+	echo "the dir already exitsS"
+	cd django-notes-app
+fi
+if ! install_requirements; then
+	echo "Installation failed"
+	exit 1
+
+if ! required_restarts; then
+	echo "System fault identified"
+	exit 1
+
+fi
+
+if ! deploy; then
+	echo "Deployment failed, mailing the admin
+	exit 1
+fi
+echo "********** DEPLOYEMENT DONE ***********"
+

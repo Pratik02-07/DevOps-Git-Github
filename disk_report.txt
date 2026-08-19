@@ -1,0 +1,8 @@
+Filesystem      Size  Used Avail Use% Mounted on
+tmpfs           680M  2.4M  678M   1% /run
+/dev/sda2        26G   13G   13G  51% /
+tmpfs           1.7G     0  1.7G   0% /dev/shm
+none            1.0M     0  1.0M   0% /run/credentials/systemd-resolved.service
+tmpfs           1.7G  8.0K  1.7G   1% /tmp
+tmpfs           340M   96K  340M   1% /run/user/1000
+none            1.0M     0  1.0M   0% /run/credentials/systemd-journald.service

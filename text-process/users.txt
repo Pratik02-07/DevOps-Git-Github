@@ -1,0 +1,5 @@
+Pratik  Pune    22
+Rahul   Mumbai  24
+Amit    Delhi   23
+
+#awk '{print $1}' users.txt

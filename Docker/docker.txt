@@ -1,0 +1,37 @@
+
+
+Install docker on Ubuntu
+sudo apt install docker.io -y
+
+check docker version
+docker --version
+
+Start Docker
+sudo systemctl start docker
+
+Enable Docker at system startup
+sudo systemctl enable docker
+
+sudo systemctl disable docker
+
+Check Docker service
+sudo systemctl status docker
+
+Test Docker
+sudo docker run hello-world
+
+Check the image
+sudo docker images
+
+Check containers
+sudo docker ps
+
+It may show nothing because hello-world finishes immediately.
+
+So use:
+
+sudo docker ps -a
+
+You should see the hello-world container with status similar to:
+
+

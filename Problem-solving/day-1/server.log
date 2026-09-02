@@ -1,0 +1,6 @@
+200 GET /home
+200 GET /login
+500 GET /api/payrent
+404 GET /user
+200 GET /products
+500 GET /ap1/payrent

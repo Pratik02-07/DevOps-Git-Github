@@ -1,0 +1,11 @@
+You're given a server log file:
+
+20 GET /home
+200 GET /login
+580 GET /ap1/payrent
+484 GET /user
+280 GET /products
+SRO GET /apt/payrent
+
+Your task:
+Write a Python script to extract all requests that returned a 508 status code.

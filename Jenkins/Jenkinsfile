@@ -1,0 +1,82 @@
+pipeline {
+    agent { label "pratik" }
+
+    environment {
+        IMAGE_NAME        = 'fastapi-app-test:latest'
+        POSTGRES_USER     = 'postgres_test_user'
+        POSTGRES_PASSWORD = 'secure_test_password'
+        POSTGRES_DB       = 'fastapi_test_db'
+        DB_HOST           = 'db'
+        DB_PORT           = '5432'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/Pratik02-07/fastapi-ci-cd.git'
+            }
+        }
+
+        stage('Prepare Environment') {
+            steps {
+                echo 'Creating local .env file for Docker Compose...'
+                sh """
+                echo "IMAGE_NAME=${IMAGE_NAME}" > .env
+                echo "POSTGRES_USER=${POSTGRES_USER}" >> .env
+                echo "POSTGRES_PASSWORD=${POSTGRES_PASSWORD}" >> .env
+                echo "POSTGRES_DB=${POSTGRES_DB}" >> .env
+                echo "DB_HOST=${DB_HOST}" >> .env
+                echo "DB_PORT=${DB_PORT}" >> .env
+                """
+            }
+        }
+
+        stage('Build & Start Services') {
+            steps {
+                echo 'Explicitly building local Docker images...'
+                // Forces Docker Compose to build the local container using your Dockerfile
+                sh 'docker compose build'
+                
+                echo 'Starting FastAPI and PostgreSQL containers...'
+                // Spins up the pre-built services without attempting an external pull
+                sh 'docker compose up -d'
+                
+                echo 'Waiting for services to be ready...'
+                sh 'sleep 10' 
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                echo 'Executing pytest suite inside the application container...'
+                sh 'docker compose exec -T app pytest tests'
+            }
+        }
+        
+        stage('Deploy / Push Artifacts') {
+            steps {
+                echo 'Placeholder for Deployment'
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'Tearing down containers and cleaning up workspace...'
+            script {
+                try {
+                    sh 'docker compose down -v --remove-orphans'
+                } catch (Exception e) {
+                    echo "Could not spin down containers: ${e.message}"
+                }
+            }
+            cleanWs()
+        }
+        success {
+            echo 'Pipeline completed successfully!'
+        }
+        failure {
+            echo 'Pipeline failed. Check the logs above for details.'
+        }
+    }
+}

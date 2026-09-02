@@ -2,3 +2,4 @@
 .*log
 application.log
 password.txt
+CI-CD/django-notes-app/data/
